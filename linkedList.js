@@ -1,4 +1,4 @@
-class _Node{
+class _Node {
   constructor(value = null, next = null) {
     this.value = value;
     this.next = next;
@@ -11,19 +11,18 @@ class LinkedList {
   }
 
   insertFirst(item) {
-    this.head = new _Node (item, this.head);
+    this.head = new _Node(item, this.head);
   }
 
   insertLast(item) {
     if (this.head === null) {
       this.insertFirst(item);
-    }
-    else {
-      let tempNode = this.head;
-      while (tempNode.next !== null) {
-        tempNode = tempNode.next;
+    } else {
+      let currNode = this.head;
+      while (currNode.next !== null) {
+        currNode = currNode.next;
       }
-      tempNode.next = new _Node(item, null);
+      currNode.next = new _Node(item, null);
     }
   }
 
@@ -34,7 +33,7 @@ class LinkedList {
     }
     while (currNode.value !== item) {
       if(currNode.next === null) {
-        console.log('Item not found')
+        console.log('Item not found');
         return;
       }
       else {
@@ -51,7 +50,7 @@ class LinkedList {
     }
     while (currNode.next.value !== item) {
       if(currNode.next === null) {
-        console.log('Item not found')
+        console.log('Item not found');
         return;
       }
       else {
@@ -131,7 +130,7 @@ function size(linkedList) {
     currNode = currNode.next;
     count++;
   }
-  count++
+  count++;
   return count;
 }
 
@@ -186,19 +185,28 @@ function reverseList(linkedList) {
   return display(linkedList);
 }
 
-function reverse2(linkedList) {
-  let firstNode = linkedList.head;
-  let nextValue = null;
-  let nextItem = firstNode.next;
-  
-
-  while(firstNode.next !== null){
-    firstNode.next = nextValue;
-    nextItem.next = firstNode;
-    nextItem = firstNode.next;
-    nextValue = '';
+function reverseSecondHalf(linkedList) {
+  let count = 1;
+  let curr = linkedList.head;
+  while (curr.next !== null) {
+    curr = curr.next;
+    count++;
   }
-
+  curr = linkedList.head;
+  for(let i = 1; i < Math.ceil(count /2); i++) {
+    curr = curr.next;
+  }
+  const midRoot = curr;
+  let prev = null;
+  curr = curr.next;
+  while (curr !== null) {
+    const next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  midRoot.next = prev;
+  return linkedList;
 }
 
 function thirdFromEnd(linkedList) {
@@ -213,11 +221,9 @@ function thirdFromEnd(linkedList) {
 function middleOfList(linkedList) {
   let listSize = size(linkedList);
   if (listSize % 2 !== 0) {
-    console.log('if');
     return linkedList.findAtIndex(Math.ceil(listSize / 2));
   } else {
-    console.log('else');
-    let results = [linkedList.findAtIndex(listSize / 2 - 1), linkedList.findAtIndex(listSize / 2)]
+    let results = [linkedList.findAtIndex(listSize / 2 - 1), linkedList.findAtIndex(listSize / 2)];
     return results;
   }
 }
@@ -250,7 +256,7 @@ function main() {
   // SLL.remove('squirrel');
   SLL.insertBefore('Athena', 'Boomer');
   SLL.insertAfter('Hotdog', 'Helo');
-  //SLL.insertAt('Kat', 1);
+  SLL.insertAt('Kat', 1);
   //SLL.remove('Tauhida');
   CycleList.insertFirst('Gage');
   CycleList.insertLast('Charles');
@@ -260,7 +266,7 @@ function main() {
   let loopNode = CycleList.findAtIndex(1);
   let last = findLast(CycleList);
   last.next = new _Node('Loop!', loopNode);
-  return cycleInList(SLL);
+  return display(reverseSecondHalf(SLL));
 }
 
 
