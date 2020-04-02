@@ -61,6 +61,14 @@ class LinkedList {
     return currNode;
   }
 
+  findAtIndex(index) {
+    let currNode = this.head;
+    for(let i = 0; i < index; i++) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+
   remove(item) {
     if (!this.head) {
       return null;
@@ -202,9 +210,37 @@ function thirdFromEnd(linkedList) {
   return currNode;
 }
 
+function middleOfList(linkedList) {
+  let listSize = size(linkedList);
+  if (listSize % 2 !== 0) {
+    console.log('if');
+    return linkedList.findAtIndex(Math.ceil(listSize / 2));
+  } else {
+    console.log('else');
+    let results = [linkedList.findAtIndex(listSize / 2 - 1), linkedList.findAtIndex(listSize / 2)]
+    return results;
+  }
+}
+
+function cycleInList(linkedList) {
+  let cycleTrue = false;
+  let pointers = [];
+  let currNode = linkedList.head;
+  while (currNode.next !== null) {
+    if (pointers.includes(currNode.next)) {
+      cycleTrue = true;
+      break;
+    }
+    pointers.push(currNode.next);
+    currNode = currNode.next;
+  }
+  return cycleTrue;
+}
+
 function main() {
   let SLL = new LinkedList;
-  let empty = new LinkedList
+  let empty = new LinkedList;
+  let CycleList = new LinkedList;
   //SLL.insertFirst('Apollo');
   SLL.insertLast('Boomer');
   SLL.insertFirst('Helo');
@@ -214,10 +250,19 @@ function main() {
   // SLL.remove('squirrel');
   SLL.insertBefore('Athena', 'Boomer');
   SLL.insertAfter('Hotdog', 'Helo');
-  SLL.insertAt('Kat', 1);
+  //SLL.insertAt('Kat', 1);
   //SLL.remove('Tauhida');
-  return thirdFromEnd(SLL);
+  CycleList.insertFirst('Gage');
+  CycleList.insertLast('Charles');
+  CycleList.insertLast('Robert');
+  CycleList.insertLast('Ethan');
+  CycleList.insertLast('Jeff');
+  let loopNode = CycleList.findAtIndex(1);
+  let last = findLast(CycleList);
+  last.next = new _Node('Loop!', loopNode);
+  return cycleInList(SLL);
 }
+
 
 
 
