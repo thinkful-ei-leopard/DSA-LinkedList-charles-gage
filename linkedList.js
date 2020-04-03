@@ -250,7 +250,7 @@ function cycleInList(linkedList) {
     pointers.push(currNode.next);
     currNode = currNode.next;
   }
-  return cycleTrue;
+  return `Cycle in list?: ${cycleTrue}`;
 }
 
 function main() {
