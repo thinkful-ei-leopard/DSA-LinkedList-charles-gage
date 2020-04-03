@@ -13,7 +13,8 @@ class LinkedList {
   find(item) {
     let currNode = this.head;
     if (!this.head){
-      return 'List is empty';
+      console.log('List is empty');
+      return;
     }
     while (currNode.value !== item) {
       if(currNode.next === null) {
@@ -29,7 +30,12 @@ class LinkedList {
   findBefore(item) {
     let currNode = this.head;
     if (!this.head){
-      return null;
+      console.log('List is empty');
+      return;
+    }
+    if (currNode.value === item) {
+      console.log('Item is first in list, nothing before to return.');
+      return;
     }
     while (currNode.next.value !== item) {
       if(currNode.next === null) {
@@ -87,11 +93,13 @@ class LinkedList {
   insertAt(item, index){
     if (index === 0 || this.head === null) {
       this.insertFirst(item);
+      return;
     }
     let currNode = this.head;
     for (let i = 1; i < index; i++) {
       if (currNode.next === null) {
         console.log(`There are only ${i + 1} items in this list.`);
+        return;
       } else {
         currNode = currNode.next;
       }
@@ -101,7 +109,8 @@ class LinkedList {
 
   remove(item) {
     if (!this.head) {
-      return null;
+      console.log('List is empty, no items to remove');
+      return;
     }
     if (this.head.value === item) {
       this.head = this.head.next;
@@ -147,9 +156,11 @@ function display(linkedList) {
 
 function isEmpty(linkedList) {
   if (linkedList.head === null) {
-    return "List is empty";
+    console.log("True - List is empty");
+    return;
   } else {
-    return `List has ${size(linkedList)} items`;
+    console.log(`False - List has ${size(linkedList)} items`);
+    return;
   }
 }
 

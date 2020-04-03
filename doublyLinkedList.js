@@ -15,7 +15,8 @@ class DoublyLinkedList {
   find(item) {
     let currNode = this.head;
     if (!this.head) {
-      return 'List is empty';
+      console.log('List is empty');
+      return;
     }
     while (currNode.value !== item) {
       if (currNode.next === null) {
@@ -31,7 +32,12 @@ class DoublyLinkedList {
   findBefore(item) {
     let currNode = this.head;
     if (!this.head) {
-      return 'List is empty';
+      console.log('List is empty');
+      return;
+    }
+    if (currNode.value === item) {
+      console.log('Item is first in list, nothing before to return.');
+      return;
     }
     while (currNode.next !== item) {
       if (currNode.next === null) {
@@ -117,11 +123,28 @@ class DoublyLinkedList {
     for (let i = 1; i < index; i++) {
       if (currNode.next === null) {
         console.log(`There are only ${i + 1} items in this list.`);
+        return;
       } else {
         currNode = currNode.next;
       }
     }
     this.insertAfter(item, currNode.value);
+  }
+  remove(item) {
+    if (!this.head) {
+      console.log('List is empty, no items to remove');
+      return;
+    }
+    if (this.head.value === item) {
+      this.head = this.head.next;
+      this.head.prev = null;
+      return;
+    } 
+    let currNode = this.find(item);
+    let prevNode = currNode.prev;
+    let nextNode = currNode.next;
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
   }
 }
 
@@ -160,6 +183,28 @@ function displayReverse(linkedList) {
   return `This list has ${count} items in it, and reversed are linked in this order: ${list}`;
 }
 
+function isEmpty(linkedList) {
+  if (linkedList.head === null) {
+    console.log("True - List is empty");
+    return;
+  } else {
+    console.log(`False - List has ${size(linkedList)} items`);
+    return;
+  }
+}
+
+function findLast(linkedList) {
+  if (linkedList.tail !== null) {
+    return linkedList.tail;
+  } else {
+    let currNode = linkedList.head;
+    while (currNode.next !== null) {
+      currNode = currNode.next;
+    }
+    return currNode;
+  }
+}
+
 function reverseList(linkedList) {
   let currNode = linkedList.head;
   linkedList.tail = currNode;
@@ -181,7 +226,7 @@ function mainDLL() {
   DLL.insertLast('Persephone');
   DLL.insertLast('Sindragosa');
   DLL.insertAt('Alanna', 1);
-  return display(reverseList(DLL));
+  return DLL.findBefore('Gage');
 }
 
 console.log(mainDLL());
