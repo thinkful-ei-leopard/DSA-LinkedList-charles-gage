@@ -10,33 +10,16 @@ class LinkedList {
     this.head = null;
   }
 
-  insertFirst(item) {
-    this.head = new _Node(item, this.head);
-  }
-
-  insertLast(item) {
-    if (this.head === null) {
-      this.insertFirst(item);
-    } else {
-      let currNode = this.head;
-      while (currNode.next !== null) {
-        currNode = currNode.next;
-      }
-      currNode.next = new _Node(item, null);
-    }
-  }
-
   find(item) {
     let currNode = this.head;
     if (!this.head){
-      return null;
+      return 'List is empty';
     }
     while (currNode.value !== item) {
       if(currNode.next === null) {
         console.log('Item not found');
         return;
-      }
-      else {
+      } else {
         currNode = currNode.next;
       }
     }
@@ -68,6 +51,54 @@ class LinkedList {
     return currNode;
   }
 
+  insertFirst(item) {
+    this.head = new _Node(item, this.head);
+  }
+
+  insertLast(item) {
+    if (this.head === null) {
+      this.insertFirst(item);
+    } else {
+      let currNode = this.head;
+      while (currNode.next !== null) {
+        currNode = currNode.next;
+      }
+      currNode.next = new _Node(item, null);
+    }
+  }
+
+  insertBefore(item, beforeItem){
+    if (this.head === null) {
+      this.head = new _Node(item);
+    }
+    let currentNode = this.find(beforeItem);
+    let previousNode = this.findBefore(currentNode.value);
+    previousNode.next = new _Node(item, currentNode);
+  }
+
+  insertAfter(item, afterItem){
+    if (afterItem.next === null) {
+      this.insertLast(item);
+    }
+    let currentNode = this.find(afterItem);
+    currentNode.next = new _Node(item, currentNode.next);
+  }
+
+  insertAt(item, index){
+    if (index === 0 || this.head === null) {
+      this.insertFirst(item);
+    }
+    let currNode = this.head;
+    for (let i = 1; i < index; i++) {
+      if (currNode.next === null) {
+        console.log(`There are only ${i + 1} items in this list.`);
+      } else {
+        currNode = currNode.next;
+      }
+    }
+    this.insertAfter(item, currNode.value);
+  }
+
   remove(item) {
     if (!this.head) {
       return null;
@@ -88,38 +119,6 @@ class LinkedList {
       return;
     }
     previousNode.next = currNode.next;
-  }
-
-  insertBefore(item, beforeItem){
-    if (this.head === null) {
-      this.head = new _Node(item);
-    }
-    let currentNode = this.find(beforeItem);
-    let previousNode = this.findBefore(currentNode.value);
-    previousNode.next = new _Node(item, currentNode);
-  }
-
-  insertAfter(item, afterItem){
-    if (afterItem.next === null) {
-      this.insertLast(item);
-    }
-    let currentNode = this.find(afterItem);
-    currentNode.next = new _Node(item, currentNode.next);
-  }
-
-  insertAt(item, position){
-    if (position === 0 || this.head === null) {
-      this.insertFirst(item);
-    }
-    let currNode = this.head;
-    for (let i = 1; i < position; i++) {
-      if (currNode.next === null) {
-        console.log(`There are only ${i + 1} items in this list.`);
-      } else {
-        currNode = currNode.next;
-      }
-    }
-    this.insertAfter(item, currNode.value);
   }
 }
 
